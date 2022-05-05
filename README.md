@@ -36,14 +36,24 @@ Participation Medal: We tried but nothing worked out; we learned a lot.
 
 ## Reading material:
 Brus, Cinchetti, D’Ariano, and Macchiavello, Phase-covariant quantum cloning, Phys. Rev. A (2000) https://arxiv.org/abs/quant-ph/9909046
+
 Lamoureux, and Cerf, Asymmetric phase-covariant d-dimensional cloning, Quantum Information and Computation (2005) https://arxiv.org/abs/quant-ph/0410054
+
 Fan, Matsumoto, Wang, and Wadati, Quantum cloning machines for equatorial qubits, Phys. Rev. A (2001) https://arxiv.org/abs/quant-ph/0101101
+
 Fuchs, Gisin, Griffiths, Niu, and Peres, Optimal eavesdropping in quantum cryptography. I. Information bound and optimal strategy, Phys. Rev. A (1997) https://arxiv.org/abs/quant-ph/9701039
+
 Xu, Ma, Zhang, Lo, and Pan, Secure quantum key distribution with realistic devices, Reviews of Modern Physics (2020)  https://arxiv.org/abs/1903.09051 
+
 Scarani, Bechmann-Pasquinucci, Cerf, Dusek, Lutkenhaus, Peev, The security of practical quantum key distribution, Reviews of Modern Physics (2009) https://arxiv.org/abs/0802.4155
+
 Xiao, Yao, Zhou, and Wang, Distrubtion of quantum Fisher information in asymmetric cloning machines, Scientific Reports (2014) https://arxiv.org/abs/1409.2199
+
 Schaffner, Cryptography in the bounded-quantum-storage model, Thesis (2007) https://arxiv.org/abs/0709.0289
+
 Renner, Security of quantum key distribution, Thesis (2005) https://arxiv.org/abs/quant-ph/0512258 
+
 Benletaief, Rezig, and Bouallegue, Reconciliation for Practical Quantum Key Distribution with BB84 Protocol, 2011 11th Mediterranean Microwave Symposium (MMS)R (2011) https://arxiv.org/abs/2002.07778
+
 Rezakhani, Siadatnejad, and Ghaderi, Separability in asymmetric phase-covariant cloning, Phys. Lett. A (2004) https://arxiv.org/abs/quant-ph/0312024
 
