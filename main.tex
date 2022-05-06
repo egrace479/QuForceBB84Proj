@@ -1,0 +1,239 @@
+\documentclass[reqno]{amsart}
+ % reqno causes equations to be numbered on the right.
+\setlength{\textheight}{43pc}
+\setlength {\textwidth}{28pc}
+
+\usepackage{amssymb, latexsym, amsmath, amsfonts, amscd}
+\usepackage{lscape,color}
+\usepackage{mathrsfs, hyperref}
+\usepackage{verbatim}
+\usepackage{showlabels}
+\usepackage{appendix}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+
+% Theorem statements that will be italicized.
+% Adding a * after \newtheorem will make it so that these aren't numbered.
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+%\newtheorem{remark}{Remark}
+
+% Theorem statements that will not be italicized.
+%\theoremstyle{definition}\newtheorem*{definition}{Definition}
+%{\theoremstyle{definition}\newtheorem*{comment}{Comment}}
+{\theoremstyle{definition}\newtheorem{remark}{Remark}}
+%{\theoremstyle{definition}\newtheorem{example}{Example}}
+
+% This makes it so that the lemmas are numbered 1.1, 1.2, etc., depending on which
+% section they occur in.
+\numberwithin{lemma}{section}
+\numberwithin{proposition}{section}
+
+% Some special commands
+\newcommand{\dee}{\mathrm{d}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\T}{\mathbf{T}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\F}{\tilde{\mathscr{F}}}
+\newcommand{\G}{\tilde{\mathscr{G}}}
+\newcommand{\HH}{\tilde{\mathscr{H}}}
+\newcommand{\dist}{\textnormal{dist}}
+\newcommand{\sech}{\textnormal{sech}}
+\newcommand{\p}{\partial}
+\newcommand{\Qproj}{\mathscr{Q}}
+\newcommand{\Pproj}{\mathscr{P}}
+\newcommand{\supp}{\textnormal{supp }}
+\newcommand{\tw}{\tilde{w}}
+\newcommand{\tv}{\tilde{v}}
+\newcommand{\la}{\langle}
+\newcommand{\Span}{\textnormal{Span}}
+
+
+\begin{document}
+
+\begin{center}
+    \textbf{Notes on Asymmetric Cloning}
+\end{center}
+
+\section{Universal asymmetric cloning machines}
+
+In this section we develop the universal quantum cloning machine (UQCM) following the presentation in \cite{REZAKHANI2005278}. We restrict our attention to the $2$-dimensional case, i.e. to qubits.
+
+\subsection{Universal Cloning Machines}
+Here we consider a unitary transformation
+\begin{equation*}
+    \ket{i}_{A} \ket{O}_{B} \ket{\Sigma}_{X} \to \mu \ket{i}_{A} \ket{i}_{B} \ket{i}_{X} + \nu \sum_{j \neq i} \Big ( \ket{i}_{A} \ket{j}_{B} + \ket{j}_{A} \ket{i}_{B} \Big ) \ket{j}_{X}.
+\end{equation*}
+Here $A$ refers to the input qubit, $B$ is a blank qubit, and $X$ is an ancilla. The ancilla is initially in some fixed state, say $\ket{\Sigma}$. In particular, the unitary can be expressed in terms of the basis states $\ket{0}$ and $\ket{1}$:
+\begin{align*}
+    \ket{0}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{0}_{A} \ket{0}_{B} \ket{0}_{X} + \nu \Big ( \ket{0}_{A} \ket{1}_{B} \ket{1}_{X} + \ket{1}_{A} \ket{0}_{B} \ket{0}_{X} \Big )\\
+    \ket{1}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{1}_{A} \ket{1}_{B} \ket{1}_{X} + \nu \Big ( \ket{1}_{A} \ket{0}_{B} \ket{0}_{X} + \ket{0}_{A} \ket{1}_{B} \ket{0}_{X} \Big ).
+\end{align*}
+We point out that the parameters, $\mu$ and $\nu$, can be taken to be real parameters (imaginary terms can be absorbed into the ancilla). We impose the following restrictions on the output of the cloner:
+\begin{enumerate}
+    \item the fidelity of the copies, $F = \langle \psi \vert \rho^{\text{(out)}} \vert \psi \rangle$ does not depend on the particular state which is being copied;
+    \item the outputs are symmetric, meaning that $\rho_{A}^{\text{(out)}} = \rho_{B}^{\text{(out)}}$.
+\end{enumerate}
+These restrictions yield the following relations:
+\begin{align*}
+    \rho_{A}^{\text{(out)}} &= \eta \ket{\psi}_{A}\bra{\psi} + \frac{1 - \eta}{2} \mathbf{1}_{A}\\
+    \rho_{B}^{\text{(out)}} &= \eta \ket{\psi}_{A} \bra{\psi} + \frac{1 - \eta}{2} \mathbf{1}_{B}\\
+    \mu^{2} &= 2\mu \nu\\
+    \mu^{2} &= \frac{2}{3}\\
+    \nu^{2} &= = \frac{1}{6}\\
+    \eta &= \mu^{2} = \frac{2}{3}.
+\end{align*}
+Here $\mathbf{1}_{A}$ is the identity operator on the Hilbert space $\mathcal{H}_{A}$ and $\eta = 2F - 1$ is called the shrinking factor (recall that $F$ is the fidelity as defined above). In the case of qubits we see that the fidelity is $F = 5/6$.
+
+\begin{proof}[Detailed Calculations]
+{\color{red}{Need to fill in the calculations for the previous relations.}}
+\end{proof}
+
+\subsection{Asymmetric Universal Cloning Machines}
+Notice that in the definition of the cloning machine given above the symmetry of the outputs ($\rho_{A}^{\text{(out)}} = \rho_{B}^{\text{(out)}}$) is a consequence of the equality of the coefficients of the terms $\ket{i}_{A} \ket{j}_{B} \ket{j}_{X}$ and $\ket{j}_{A} \ket{i}_{B} \ket{j}_{X}$. To develop an asymmetric cloning machine, then, we give different contributions to these terms. In particular, we define
+\begin{align*}
+    \ket{0}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{0}_{A} \ket{0}_{B} \ket{0}_{X} + \nu \ket{0}_{A} \ket{1}_{B} \ket{1}_{X} + \xi \ket{1}_{A} \ket{0}_{B} \ket{0}_{X}\\
+    \ket{1}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{1}_{A} \ket{1}_{B} \ket{1}_{X} + \nu \ket{1}_{A} \ket{0}_{B} \ket{0}_{X} + \xi \ket{0}_{A} \ket{1}_{B} \ket{0}_{X}.
+\end{align*}
+
+If a state in the form $\ket{\psi} = \alpha_{0} \ket{0} + \alpha_{1} \ket{1}$ is given as the input this machine, then the state of the output copy $A$ is
+\begin{equation}
+\label{Aclone}
+    \rho_{A}^{\text{(out)}} = 2 \mu \nu \ket{\psi}_{A} \bra{\psi} + \xi^{2} \mathbf{1}_{A} + (\mu^{2} + \nu^{2} - \xi^{2} - 2\mu \nu)\Big ( \vert \alpha_{0} \vert^{2} \ket{0} \bra{0} + \vert \alpha_{1} \vert^{2} \ket{1} \bra{1} \Big ),
+\end{equation}
+with the corresponding  output in $B$ is
+\begin{equation}
+\label{Bclone}
+    \rho_{B}^{\text{(out)}} = 2 \mu \xi \ket{\psi}_{A} \bra{\psi} + \nu^{2} \mathbf{1}_{A} + (\mu^{2} + \xi^{2} - \nu^{2} - 2\mu \xi)\Big ( \vert \alpha_{0} \vert^{2} \ket{0} \bra{0} + \vert \alpha_{1} \vert^{2} \ket{1} \bra{1} \Big ).
+\end{equation}
+Observe that $rho_{A}^{\text{(out)}}$ and $\rho_{B}^{\text{(out)}}$ are similar; the $B$-case is obtained from the $A$-case by swapping the roles of $\nu$ and $\xi$.
+
+\begin{proof}[Detailed Calculations]
+{\color{red}{Need to fill in the calculations for the reduced density operators above.}}
+\end{proof}
+
+Notice that the last terms in \eqref{Aclone} and \eqref{Bclone} are state-dependent. By imposing the requirement that the cloner be independent of the input state we require
+\begin{align*}
+    \mu^{2} + \nu^{2} - \xi^{2} - 2\mu \nu &= 0\\
+    \mu^{2} + \xi^{2} - \nu^{2} - 2\mu \xi &= 0.
+\end{align*}
+Adding these equations yields
+\begin{equation*}
+    \mu^{2} - \mu \xi - \mu \nu = 0
+\end{equation*}
+from which we conclude that $\mu = \nu + \xi$. Since we require the output of the cloner to be normalized, we require that
+\begin{equation}
+\label{normalization}
+    \mu^{2} + \nu^{2} + \xi^{2} = 1
+\end{equation}
+Also from \eqref{Aclone} we find that
+\begin{equation*}
+    \eta_{A} = 2\mu \nu \quad \text{and}  \quad \frac{1 - \eta_{A}}{2} = \xi^{2},
+\end{equation*}
+while from \eqref{Bclone} we see that
+\begin{equation*}
+    \eta_{B} = 2 \mu \xi, \quad \text{and} \quad \frac{1 - \eta_{B}}{2} = \nu^{2}.
+\end{equation*}
+Recalling that the fidelity, $F$, is related to the shrinking factor $\eta$ by $\eta = 2F - 1$, we see that these calculations yield fidelities for the $A$ and $B$ copies:
+\begin{align*} 
+    F_{A} &= \frac{1}{2} (2 \mu \nu + 1) = 1 - \xi^{2}\\
+    F_{B} &= \frac{1}{2} (2 \mu \xi + 1) = 1 - \nu^{2}.
+\end{align*}
+
+\subsection{Asymmetric Phase-Covariant Cloning Machine}
+Consider an input state of the form
+\begin{equation*}
+    \ket{\psi} = \frac{1}{\sqrt{2}} \Big ( \ket{0} + e^{i\phi} \ket{1} \Big ).
+\end{equation*}
+In this case we find that the final term in \eqref{Aclone} and \eqref{Bclone} is 
+\begin{align*}
+    \left \vert \frac{1}{\sqrt{2}} \right \vert^{2} \ket{0} \bra{0} + \left \vert \frac{e^{i\phi}}{\sqrt{2}} \right \vert^{2} \ket{1} \bra{1} = \frac{1}{2} \Big ( \ket{0} \bra{0} + \ket{1} \bra{1} \Big ) = \frac{1}{2} \mathbf{1},
+\end{align*}
+meaning that the last term is no longer dependent on the input state. In particular we find that the outputs reduce to
+\begin{equation}
+\label{PCAclone}
+    \rho_{A}^{\text{(out)}} = 2 \mu \nu \ket{\psi}_{A} \bra{\psi} + \left ( \xi^{2} + \frac{\mu^{2} + \nu^{2} - \xi^{2} - 2\mu \nu}{2} \right )  \mathbf{1}_{A} 
+\end{equation}
+and
+\begin{equation}
+\label{PCBclone}
+    \rho_{B}^{\text{(out)}} = 2 \mu \xi \ket{\psi}_{A} \bra{\psi} + \left ( \nu^{2} + \frac{\mu^{2} + \xi^{2} - \nu^{2} - 2\mu \xi}{2} \right ) \mathbf{1}_{B}.
+\end{equation}
+We are thus lead to the following formulas for the shrinking factors:
+\begin{align}
+    \eta_{A} = 2 \mu \nu = 2\nu \sqrt{1 - (\nu^{2} + \xi^{2})} \label{Ashrink}\\
+    \eta_{B} = 2 \mu \xi = 2 \xi \sqrt{1 - (\nu^{2} + \xi^{2})} \label{Bshrink}.
+\end{align}
+This cloning machine is optimal if, whenever we fix the quality of one of the clones, say $A$, the quality of the other clone is as high as possible. Since the quality of the clone $A$ can be expressed in terms of $\eta_{A}, \eta_{B}$, we focus on the trade-off in the shrinking factors. For a fixed value of $\eta_{A}$ we solve \eqref{Ashrink} for $\xi$ in terms of $\nu$ and insert this into \eqref{Bshrink} to see that
+\begin{equation*}
+    \eta_{B}(\nu) = \frac{\eta_{A}}{\nu} \sqrt{1 - \nu^{2} - \frac{\eta_{A}^{2}}{4 \nu^{2}}}.
+\end{equation*}
+Thus given a value of $\eta_{A}$ we can determine a value of $\nu \in (0,1]$ that maximizes the value of $\eta_{B}.$
+{\color{red}{Need to check the domain for $eta_{B}$. In general dimesions there is no formula for the corresponding value of $\nu$, but in dimension $2$ there might be a formula. Right now I have reduced this to the following equation for $\nu$:
+\begin{equation*}
+    4 \nu^{5} - 4 \nu^{4} + 4 \nu^{2} - 3 \eta^{2} = 0.
+\end{equation*}
+In general, fifth order equations are hopeless, but this specific form might admit a nice solution. Check with Mathematica?
+}}
+
+\section{Implementation}
+
+The following circuit is drawn from \cite{PhysRevA.56.3446}. We write $\vert \psi \rangle_{a_{1}}^{(\textnormal{in})}$ for the qubit we are trying to clone. The circuit below aims to produce two copies of the input qubit. In their initial state we write $\vert 0 \rangle_{a_{2}}, \vert 0 \rangle_{a_{3}}$ for these qubits. The first part of the circuit prepares the target qubits ($a_{2}$ and $a_{3}$) in a state which is useful for the cloning operation. The second component of the circuit (which involves $\vert \psi \rangle_{a_{1}}^{(\textnormal{in})}$) is the piece of the circuit that handles the actual copying.
+
+\begin{center}
+\begin{quantikz}
+\lstick{$\ket{\psi}_{a_{1}}^{\text{(in)}}$} & \qw & \qw & \qw & \qw & \qw & \ctrl{1} & \ctrl{2} & \targ & \qw & \targ & \qw & \qw \rstick[wires = 3]{$\ket{\psi}_{a_{1} a_{2} a_{3}}^{\text{(out)}}$}\\
+\lstick{$\ket{0}_{a_{2}}$} & \gate{$R$} & \ctrl{1} & \qw &\targ & \qw  & \gate{$R$} & \targ & \qw & \qw & \ctrl{-1} & \qw & \qw \\
+\lstick{$\ket{0}_{a_{3}}$} & \qw & \targ & \qw & \gate{$R$} & \ctrl{-1} & \qw & \qw & \targ & \qw & \qw & \ctrl{-2} & \qw \\
+\end{quantikz}
+\end{center}
+
+Here the gate $R = R(\theta)$ is a rotation gate defined by
+\begin{align*}
+    R\ket{0} &= \cos(\theta) \ket{0} + \sin(\theta) \ket{1}\\
+    R\ket{1} &= -\sin(\theta) \ket{0} + \cos(\theta) \ket{0}.
+\end{align*}
+The first part of this circuit involves only the $a_{2}$ and $a_{3}$ qubits; this is a preparation component of the circuit. The output of this portion of the circuit is of the form
+\begin{equation*}
+    \ket{\psi}_{a_{2} a_{3}}^{\textnormal{(out)}} = C_{1} \ket{0}_{a_{2}} \ket{0}_{a_{3}} + C_{2} \ket{0}_{a_{2}} \ket{1}_{a_{3}} + C_{3} \ket{1}_{a_{2}} \ket{0}_{a_{3}} + C_{4} \ket{1}_{a_{2}} \ket{1}_{a_{3}}.
+\end{equation*}
+Following the circuit above we find that the coefficients $C_{j}, j=1,2,3,4$ are given by
+\begin{align*}
+    C_{1} &= \cos(\theta_{1}) \cos(\theta_{2}) \cos(\theta_{3}) + \sin(\theta_{1}) \sin(\theta_{2}) \sin(\theta_{3})\\
+    C_{2} &= \sin(\theta_{1}) \cos(\theta_{2}) \cos(\theta_{3}) - \cos(\theta_{1}) \sin(\theta_{2}) \sin(\theta_{3})\\
+    C_{3} &= \cos(\theta_{1}) \cos(\theta_{2}) \sin(\theta_{3}) - \sin(\theta_{1}) \sin(\theta_{2}) \cos(\theta_{3})\\
+    C_{4} &= \cos(\theta_{1}) \sin(\theta_{2}) \sin(\theta_{3}) + \sin(\theta_{1}) \cos(\theta_{2}) \cos(\theta_{3}).
+\end{align*}
+
+Consider an input $\ket{\psi} = \alpha_{0} \ket{0} + \alpha_{1} \ket{1}$. The output from the circuit above is
+\begin{align*}
+    \ket{\psi}^{(out)} &= \alpha_{0} C_{1} \ket{000} + \alpha_{0} C_{2} \ket{101} + \alpha_{0} C_{3} \ket{110} + \alpha_{0} C_{4} \ket{011} \\
+    & \quad + \alpha_{1} C_{1} \ket{111} + \alpha_{1} C_{2} \ket{010} + \alpha_{1} C_{3} \ket{001} + \alpha_{1} C_{4} \ket{100}.
+\end{align*}
+The output state of the cloning machine in the preceding section for this input is
+\begin{align*}
+    \ket{\psi}^{(out)} &= \alpha_{0} \mu \ket{000} + \alpha_{0} \nu \ket{011} + \alpha_{0} \xi \ket{101} \\
+    & \quad + \alpha_{1} \mu \ket{111} + \alpha_{1} \nu \ket{100} + \alpha_{1} \xi \ket{101}.
+\end{align*}
+By comparing coefficients we see that we require
+\begin{equation*}
+    C_{1} = \mu, \ \ C_{2} = \xi, \ \ C_{3} = 0, \ \ C_{4} = \nu.
+\end{equation*}
+{\color{red}{We can now write $\mu, \xi, \nu$ in terms of $\theta_{1}, \theta_{2}, \theta_{3}$. The condition that $C_{3} = 0$ seems like a pretty serious constraint. I'm not sure how to handle this term. In any case, I think we can now rewrite the $\eta_{A}, \eta_{B}$ expressions in terms of the $\theta_{j}$. Does this lend itself to the information vs disturbance question?}}
+
+{\color{red}{Actually I think this is no problem. The $C_{j}$ coefficients satisfy the normalization condition $C_{1}^{2} + C_{2}^{2} + C_{3}^{2} + C_{4}^{2} = 1$, so the fact that $C_{1} = \mu, C_{2} = \xi, C_{4} = \nu$ and the normalization condition \eqref{normalization} means that if we find $(\theta_{1}, \theta_{2}, \theta_{3})$ to satisfy $C_{1} = \mu$, etc., then $C_{3} = 0$ automatically.}
+
+
+\section{Information and Disturbance}
+
+
+
+\bibliographystyle{plain}
+\bibliography{reflist}
+
+\end{document}
