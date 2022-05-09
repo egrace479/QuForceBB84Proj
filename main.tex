@@ -35,12 +35,12 @@
 \newcommand{\dee}{\mathrm{d}}
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\Q}{\mathbf{Q}}
-\newcommand{\C}{\mathbf{C}}
+%\newcommand{\C}{\mathbf{C}}
 \newcommand{\T}{\mathbf{T}}
 \newcommand{\Z}{\mathbf{Z}}
 \newcommand{\N}{\mathbf{N}}
 \newcommand{\F}{\tilde{\mathscr{F}}}
-\newcommand{\G}{\tilde{\mathscr{G}}}
+%\newcommand{\G}{\tilde{\mathscr{G}}}
 \newcommand{\HH}{\tilde{\mathscr{H}}}
 \newcommand{\dist}{\textnormal{dist}}
 \newcommand{\sech}{\textnormal{sech}}
@@ -188,8 +188,8 @@ The following circuit is drawn from \cite{PhysRevA.56.3446}. We write $\vert \ps
 \begin{center}
 \begin{quantikz}
 \lstick{$\ket{\psi}_{a_{1}}^{\text{(in)}}$} & \qw & \qw & \qw & \qw & \qw & \ctrl{1} & \ctrl{2} & \targ & \qw & \targ & \qw & \qw \rstick[wires = 3]{$\ket{\psi}_{a_{1} a_{2} a_{3}}^{\text{(out)}}$}\\
-\lstick{$\ket{0}_{a_{2}}$} & \gate{$R$} & \ctrl{1} & \qw &\targ & \qw  & \gate{$R$} & \targ & \qw & \qw & \ctrl{-1} & \qw & \qw \\
-\lstick{$\ket{0}_{a_{3}}$} & \qw & \targ & \qw & \gate{$R$} & \ctrl{-1} & \qw & \qw & \targ & \qw & \qw & \ctrl{-2} & \qw \\
+\lstick{$\ket{0}_{a_{2}}$} & \gate{R} & \ctrl{1} & \qw &\targ & \qw  & \gate{R} & \targ & \qw & \qw & \ctrl{-1} & \qw & \qw \\
+\lstick{$\ket{0}_{a_{3}}$} & \qw & \targ & \qw & \gate{R} & \ctrl{-1} & \qw & \qw & \targ & \qw & \qw & \ctrl{-2} & \qw \\
 \end{quantikz}
 \end{center}
 
@@ -224,12 +224,23 @@ By comparing coefficients we see that we require
 \begin{equation*}
     C_{1} = \mu, \ \ C_{2} = \xi, \ \ C_{3} = 0, \ \ C_{4} = \nu.
 \end{equation*}
-{\color{red}{We can now write $\mu, \xi, \nu$ in terms of $\theta_{1}, \theta_{2}, \theta_{3}$. The condition that $C_{3} = 0$ seems like a pretty serious constraint. I'm not sure how to handle this term. In any case, I think we can now rewrite the $\eta_{A}, \eta_{B}$ expressions in terms of the $\theta_{j}$. Does this lend itself to the information vs disturbance question?}}
+%{\color{red}{We can now write $\mu, \xi, \nu$ in terms of $\theta_{1}, \theta_{2}, \theta_{3}$. The condition that $C_{3} = 0$ seems like a pretty serious constraint. I'm not sure how to handle this term. In any case, I think we can now rewrite the $\eta_{A}, \eta_{B}$ expressions in terms of the $\theta_{j}$. Does this lend itself to the information vs disturbance question?}}
 
-{\color{red}{Actually I think this is no problem. The $C_{j}$ coefficients satisfy the normalization condition $C_{1}^{2} + C_{2}^{2} + C_{3}^{2} + C_{4}^{2} = 1$, so the fact that $C_{1} = \mu, C_{2} = \xi, C_{4} = \nu$ and the normalization condition \eqref{normalization} means that if we find $(\theta_{1}, \theta_{2}, \theta_{3})$ to satisfy $C_{1} = \mu$, etc., then $C_{3} = 0$ automatically.}
+%{\color{red}{Actually I think this is no problem. The $C_{j}$ coefficients satisfy the normalization condition $C_{1}^{2} + C_{2}^{2} + C_{3}^{2} + C_{4}^{2} = 1$, so the fact that $C_{1} = \mu, C_{2} = \xi, C_{4} = \nu$ and the normalization condition \eqref{normalization} means that if we find $(\theta_{1}, \theta_{2}, \theta_{3})$ to satisfy $C_{1} = \mu$, etc., then $C_{3} = 0$ automatically.}}
 
+This means that, in the notation of \cite{REZAKHANI2005278}, we have
+\begin{align*}
+	\mu  &= \cos(\theta_{1}) \cos(\theta_{2}) \cos(\theta_{3}) + \sin(\theta_{1}) \sin(\theta_{2}) \sin(\theta_{3})\\
+	\xi &= \sin(\theta_{1}) \cos(\theta_{2}) \cos(\theta_{3}) - \cos(\theta_{1}) \sin(\theta_{2}) \sin(\theta_{3})\\
+	\nu &= \cos(\theta_{1}) \sin(\theta_{2}) \sin(\theta_{3}) + \sin(\theta_{1}) \cos(\theta_{2}) \cos(\theta_{3}),
+\end{align*}
+together with the restriction that
+\begin{equation*}
+	\cos(\theta_{1}) \cos(\theta_{2}) \sin(\theta_{3}) - \sin(\theta_{1}) \sin(\theta_{2}) \cos(\theta_{3}) = 0.
+\end{equation*}
+Observe that since the coefficients $\mu, \xi, \nu$ satisfy the normalization condition \eqref{normalization}, this restriction is automatic.
 
-\section{Information and Disturbance}
+%\section{Information and Disturbance}
 
 
 
