@@ -70,10 +70,13 @@ Here we consider a unitary transformation
     \ket{i}_{A} \ket{O}_{B} \ket{\Sigma}_{X} \to \mu \ket{i}_{A} \ket{i}_{B} \ket{i}_{X} + \nu \sum_{j \neq i} \Big ( \ket{i}_{A} \ket{j}_{B} + \ket{j}_{A} \ket{i}_{B} \Big ) \ket{j}_{X}.
 \end{equation*}
 Here $A$ refers to the input qubit, $B$ is a blank qubit, and $X$ is an ancilla. The ancilla is initially in some fixed state, say $\ket{\Sigma}$. In particular, the unitary can be expressed in terms of the basis states $\ket{0}$ and $\ket{1}$:
-\begin{align*}
-    \ket{0}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{0}_{A} \ket{0}_{B} \ket{0}_{X} + \nu \Big ( \ket{0}_{A} \ket{1}_{B} \ket{1}_{X} + \ket{1}_{A} \ket{0}_{B} \ket{0}_{X} \Big )\\
+\begin{equation}
+	\label{UCM}
+	\begin{aligned}
+    \ket{0}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{0}_{A} \ket{0}_{B} \ket{0}_{X} + \nu \Big ( \ket{0}_{A} \ket{1}_{B} \ket{1}_{X} + \ket{1}_{A} \ket{0}_{B} \ket{1}_{X} \Big )\\
     \ket{1}_{A} \ket{O}_{B} \ket{\Sigma}_{X} &\to \mu \ket{1}_{A} \ket{1}_{B} \ket{1}_{X} + \nu \Big ( \ket{1}_{A} \ket{0}_{B} \ket{0}_{X} + \ket{0}_{A} \ket{1}_{B} \ket{0}_{X} \Big ).
-\end{align*}
+    \end{aligned}
+\end{equation}
 We point out that the parameters, $\mu$ and $\nu$, can be taken to be real parameters (imaginary terms can be absorbed into the ancilla). We impose the following restrictions on the output of the cloner:
 \begin{enumerate}
     \item the fidelity of the copies, $F = \langle \psi \vert \rho^{\text{(out)}} \vert \psi \rangle$ does not depend on the particular state which is being copied;
@@ -85,13 +88,56 @@ These restrictions yield the following relations:
     \rho_{B}^{\text{(out)}} &= \eta \ket{\psi}_{A} \bra{\psi} + \frac{1 - \eta}{2} \mathbf{1}_{B}\\
     \mu^{2} &= 2\mu \nu\\
     \mu^{2} &= \frac{2}{3}\\
-    \nu^{2} &= = \frac{1}{6}\\
+    \nu^{2} &= \frac{1}{6}\\
     \eta &= \mu^{2} = \frac{2}{3}.
 \end{align*}
 Here $\mathbf{1}_{A}$ is the identity operator on the Hilbert space $\mathcal{H}_{A}$ and $\eta = 2F - 1$ is called the shrinking factor (recall that $F$ is the fidelity as defined above). In the case of qubits we see that the fidelity is $F = 5/6$.
 
 \begin{proof}[Detailed Calculations]
-{\color{red}{Need to fill in the calculations for the previous relations.}}
+	For brevity we will write $\ket{ijk}$ in place of $\ket{i}_{A} \ket{j}_{B} \ket{k}_{X}$.
+	
+	First, since we require the output to be normalized, we find that
+	\begin{equation*}
+		\mu^{2} + 2 \nu^{2} = 1.
+	\end{equation*}
+	
+	Consider input $\ket{\psi}_{A} = \alpha_{0} \ket{0} + \alpha_{1} \ket{1}$ with $\vert \alpha_{0} \vert^{2} + \vert \alpha_{1} \vert^{2} = 1$. The output of the machine described by \eqref{UCM} is
+	\begin{align*}
+		\mu \alpha_{0} \ket{000} + \alpha_{0} \nu \Big (\ket{011} + \ket{101} \Big ) + \mu \alpha_{1} \ket{111} + \nu \alpha_{1} \Big ( \ket{100} + \ket{010} \Big ).
+	\end{align*}
+	The associated density operator is
+	\begin{align*}
+		\rho &= \left ( \mu \alpha_{0} \ket{000} + \alpha_{0} \nu \Big (\ket{011} + \ket{101} \Big ) + \mu \alpha_{1} \ket{111} + \nu \alpha_{1} \Big ( \ket{100} + \ket{010} \Big )\right )\\
+		& \quad \left ( \mu \alpha_{0}^{*} \bra{000} + \alpha_{0}^{*} \nu \Big (\bra{011} + \bra{101} \Big ) + \mu \alpha_{1}^{*} \bra{111} + \nu \alpha_{1}^{*} \Big ( \bra{100} + \bra{010} \Big )\right )\\
+		&= \mu^{2} \vert \alpha_{0} \vert^{2} \ket{000} \bra{000} + \mu \nu \vert \alpha_{0} \vert^{2} \Big ( \ket{000} \bra{011} + \ket{000} \bra{101} \Big )\\
+		&\quad + \mu^{2} \alpha_{0} \alpha_{1}^{*} \ket{000} \bra{111} + \mu \nu \alpha_{0} \alpha_{1}^{*} \Big ( \ket{000} \bra{100} + \ket{000} \bra{010} \Big ) + \ldots.
+	\end{align*}
+	To determine the density operator $\rho_{A}^{\textnormal{(out)}}$ we now trace out the qubits from $B$ and $X$:
+	\begin{align*}
+		\rho_{A}^{\textnormal{(out)}} = &\Big ( \vert \alpha_{0} \vert^{2}\mu^{2} + \vert \alpha_{0} \vert^{2} \nu^{2} + \vert \alpha_{1}^{2} \nu^{2} \Big ) \ket{0} \bra{0}\\
+		+ &2 \mu \nu \alpha_{0} \alpha_{1}^{*} \mu \nu \ket{0} \bra{1}
+		+ 2 \mu \nu \alpha_{0}^{*} \alpha_{1} \ket{1} \bra{0}\\
+		+ &\Big ( \vert \alpha_{1} \vert^{2} \mu^{2} + \vert \alpha_{0} \vert^{2} \nu^{2} + \alpha_{1} \vert^{2} \nu^{2} \Big ) \ket{1} \bra{1}
+	\end{align*}
+	Recalling that $\vert \alpha_{0} \vert^{2} + \vert \alpha_{1} \vert^{2} = 1$, the $\ket{0}\bra{0}$ and $\ket{1}\bra{1}$ entries simplify and we are left with
+	\begin{align*}
+		\rho_{A}^{\textnormal{(out)}} &= \Big ( \mu^{2} \vert \alpha_{0} \vert^{2} \ket{0}\bra{0} + 2\mu \nu \alpha_{0} \alpha_{1}^{*} \ket{0}\bra{1} + 2\mu \nu \alpha_{0}^{*} \alpha_{1} \ket{1}\bra{0} + \mu^{2} \vert \alpha_{1} \vert^{2} \Big )\\
+		&\quad  + \nu^{2} \Big ( \ket{0}\bra{0} + \ket{1}\bra{1} \Big )
+	\end{align*}
+	Since $\mu^{2} + 2\nu^{2} = 1$ we have $\nu^{2} = (1-\mu^{2})/2$. An analogous calculation yields
+	\begin{equation*}
+		\ket{\psi}_{A} \bra{\psi} = \vert \alpha_{0} \vert^{2} \ket{0}\bra{0} + \alpha_{0} \alpha_{1}^{*} \ket{0}\bra{1} + \alpha_{0}^{*} \alpha_{1} \ket{1}\bra{0} + \vert \alpha_{1} \vert^{2} \ket{1}\bra{1}.
+	\end{equation*}
+	With these calculations in hand, if we write 
+	\begin{equation*}
+		\rho_{A}^{\textnormal{(out)}} = \eta \ket{\psi}_{A} \bra{\psi} + \frac{1-\eta}{2} \mathbf{1}_{A},
+	\end{equation*}
+	then we must have
+	\begin{equation*} 
+		\eta = \mu^{2} \qquad \text{and} \qquad \mu^{2} = 2\mu \nu.
+	\end{equation*}
+	From this last equality we have that $\mu = 0$ or $\mu = 2 \nu$. Substituting this equality into $\mu^{2} + 2\nu^{2} = 1$ yields $6\nu^{2} = 1$, whence $\nu^{2} = 1/6$. It follows that $\mu^{2} = 4\nu^{2} = 2/3$. 
+
 \end{proof}
 
 \subsection{Asymmetric Universal Cloning Machines}
@@ -111,10 +157,10 @@ with the corresponding  output in $B$ is
 \label{Bclone}
     \rho_{B}^{\text{(out)}} = 2 \mu \xi \ket{\psi}_{A} \bra{\psi} + \nu^{2} \mathbf{1}_{A} + (\mu^{2} + \xi^{2} - \nu^{2} - 2\mu \xi)\Big ( \vert \alpha_{0} \vert^{2} \ket{0} \bra{0} + \vert \alpha_{1} \vert^{2} \ket{1} \bra{1} \Big ).
 \end{equation}
-Observe that $rho_{A}^{\text{(out)}}$ and $\rho_{B}^{\text{(out)}}$ are similar; the $B$-case is obtained from the $A$-case by swapping the roles of $\nu$ and $\xi$.
+Observe that $\rho_{A}^{\text{(out)}}$ and $\rho_{B}^{\text{(out)}}$ are similar; the $B$-case is obtained from the $A$-case by swapping the roles of $\nu$ and $\xi$.
 
 \begin{proof}[Detailed Calculations]
-{\color{red}{Need to fill in the calculations for the reduced density operators above.}}
+The calculations here are very similar to those from Section 1.1. 
 \end{proof}
 
 Notice that the last terms in \eqref{Aclone} and \eqref{Bclone} are state-dependent. By imposing the requirement that the cloner be independent of the input state we require
@@ -173,12 +219,20 @@ This cloning machine is optimal if, whenever we fix the quality of one of the cl
 \begin{equation*}
     \eta_{B}(\nu) = \frac{\eta_{A}}{\nu} \sqrt{1 - \nu^{2} - \frac{\eta_{A}^{2}}{4 \nu^{2}}}.
 \end{equation*}
-Thus given a value of $\eta_{A}$ we can determine a value of $\nu \in (0,1]$ that maximizes the value of $\eta_{B}.$
-{\color{red}{Need to check the domain for $eta_{B}$. In general dimesions there is no formula for the corresponding value of $\nu$, but in dimension $2$ there might be a formula. Right now I have reduced this to the following equation for $\nu$:
+Thus given a value of $\eta_{A}$ we can determine a value of $\nu$ that maximizes the value of $\eta_{B}.$ We note that the domain of $\eta_{B}$ has two components:
+\begin{align*}
+	 \textnormal{Domain} \ \eta_{B} &= \left [ -\sqrt{\frac{1}{2} + \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}}, -\sqrt{\frac{1}{2} - \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}} \right ] \\ 
+	 \qquad & \bigcup \left [ \sqrt{\frac{1}{2} - \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}}, \sqrt{\frac{1}{2} + \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}} \right ].
+\end{align*}
+Since we expect the scaling coefficient $\eta_{B}$ to be nonnegative, we seek a solution from the positive component of the domain. That is, we require
+\begin{equation*}
+	\nu \in \left [ \sqrt{\frac{1}{2} - \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}}, \sqrt{\frac{1}{2} + \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}} \right ].
+\end{equation*}
+{\color{red}{In general dimesions there is no formula for the corresponding value of $\nu$, but in dimension $2$ there might be a formula. Right now I have reduced this to the following equation for $\nu$:
 \begin{equation*}
     4 \nu^{5} - 4 \nu^{4} + 4 \nu^{2} - 3 \eta^{2} = 0.
 \end{equation*}
-In general, fifth order equations are hopeless, but this specific form might admit a nice solution. Check with Mathematica?
+Can we show that there is a unique value of $\nu$ that corresponds to the maximum?
 }}
 
 \section{Implementation}
@@ -238,7 +292,11 @@ together with the restriction that
 \begin{equation*}
 	\cos(\theta_{1}) \cos(\theta_{2}) \sin(\theta_{3}) - \sin(\theta_{1}) \sin(\theta_{2}) \cos(\theta_{3}) = 0.
 \end{equation*}
-Observe that since the coefficients $\mu, \xi, \nu$ satisfy the normalization condition \eqref{normalization}, this restriction is automatic.
+Observe that since the coefficients $\mu, \xi, \nu$ satisfy the normalization condition \eqref{normalization}, this restriction is automatic. Nonetheless, we can rewrite this restriction as
+\begin{equation*}
+	\tan(\theta_{3}) = \tan(\theta_{1}) \tan(\theta_{2}),
+\end{equation*}
+meaning that once $\theta_{1}$ and $\theta_{2}$ are chosen, the value of $\theta_{3}$ can be determined.
 
 %\section{Information and Disturbance}
 
