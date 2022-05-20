@@ -216,9 +216,10 @@ We are thus lead to the following formulas for the shrinking factors:
     \eta_{B} = 2 \mu \xi = 2 \xi \sqrt{1 - (\nu^{2} + \xi^{2})} \label{Bshrink}.
 \end{align}
 This cloning machine is optimal if, whenever we fix the quality of one of the clones, say $A$, the quality of the other clone is as high as possible. Since the quality of the clone $A$ can be expressed in terms of $\eta_{A}, \eta_{B}$, we focus on the trade-off in the shrinking factors. For a fixed value of $\eta_{A}$ we solve \eqref{Ashrink} for $\xi$ in terms of $\nu$ and insert this into \eqref{Bshrink} to see that
-\begin{equation*}
+\begin{equation}
+	\label{etaB_optimal}
     \eta_{B}(\nu) = \frac{\eta_{A}}{\nu} \sqrt{1 - \nu^{2} - \frac{\eta_{A}^{2}}{4 \nu^{2}}}.
-\end{equation*}
+\end{equation}
 Thus given a value of $\eta_{A}$ we can determine a value of $\nu$ that maximizes the value of $\eta_{B}.$ We note that the domain of $\eta_{B}$ has two components:
 \begin{align*}
 	 \textnormal{Domain} \ \eta_{B} &= \left [ -\sqrt{\frac{1}{2} + \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}}, -\sqrt{\frac{1}{2} - \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}} \right ] \\ 
@@ -311,12 +312,60 @@ We now find that
 	\xi(\theta_{1}, \theta_{2}) &= \frac{\sin(\theta_{1}) \cos(\theta_{2}) - \sin(\theta_{1}) \sin(\theta_{2}) \tan(\theta_{2})}{\sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}}\\
 	\nu(\theta_{1}, \theta_{2}) &= \frac{\sin(\theta_{1}) \sin(\theta_{2}) \tan(\theta_{2}) + \sin(\theta_{1}) \cos(\theta_{2})}{\sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}}.
 \end{align*}
-
-The values of the factors $\eta_{A}$ and $\eta_{B}$ can now be rewritten in terms of $\theta_{1}, \theta_{2}, \theta{3}$. Following some algebraic simplfications these become
+These formulas for the coefficients of the cloner in terms of the circuit angles can be further simplified:
 \begin{align*}
-	\eta_{A}(\theta_{1}, \eta_{2}, \eta_{3}) &= \frac{1}{2} \sin(2 \theta_{2}) \sin(2\theta_{3}) \left [ 1 + \sin(2 \theta_{1}) \cos^{2}(\theta_{2} + \theta_{3}) \right ]\\
-	\eta_{B}(\theta_{1}, \theta_{2}, \theta_{3}) &= \sin(2 \theta_{1}) \cos(\theta_{2} + \theta_{3}) \cos(\theta_{2} - \theta_{3}) - \frac{1}{4} \cos(2\theta_{1}) \sin(2\theta_{2}) \sin(2\theta_{3})
+	\mu(\theta_{1}, \theta_{2}) &= \cos(\theta_{1}) \cos(\theta_{2}) \left ( \frac{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}{\sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}} \right )\\
+	&= \cos(\theta_{1}) \cos(\theta_{2}) \sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})};\\
+	\xi(\theta_{1}, \theta_{2}) &= \sin(\theta_{1}) \cos(\theta_{2}) \left ( \frac{1 - \tan^{2}(\theta_{2})}{\sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}}\right );\\
+	\nu(\theta_{1}, \theta_{2}) &= \frac{\sin(\theta_{1}) \cos(\theta_{2}) ( \tan^{2}(\theta_{2}) + 1)}{\sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta)}}\\
+	&= \frac{\sin(\theta_{1}) \cos(\theta_{2}) \sec^{2}(\theta_{2})}{\sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}}\\
+	&= \frac{\sin(\theta_{1})}{\cos(\theta_{2}) \sqrt{1 + \tan^{2}(\theta_{1}) \tan^{2}(\theta_{2})}}.
 \end{align*}
+
+The values of the factors $\eta_{A}$ and $\eta_{B}$ can now be rewritten in terms of $\theta_{1}$ and $\theta_{2}$. The simplified formulas provided above yield particularly convenient formulas:
+\begin{align*}
+	\eta_{A}(\theta_{1}, \theta_{2}) &= 2 \sin(\theta_{1}) \cos(\theta_{1}) = \sin(2 \theta_{1})\\
+	\intertext{and}
+	\eta_{B}(\theta_{1}, \theta_{2}) &= 2 \sin(\theta_{1}) \cos(\theta_{1}) \cos^{2}(\theta_{2}) \Big ( 1 - \tan^{2}(\theta_{2}) \Big )\\
+	&= \sin(2 \theta_{1}) \cos(2 \theta_{2}).
+\end{align*}
+Of significance here is the fact that $\eta_{A}$ is independent of $\theta_{1}$. Note that the problem of choosing an optimal cloning scenario was spelled out at the end of the last section. Once one selects $\theta_{1}$ the value of $\eta_{A}$ is determined. The optimal cloning problem amounts to selecting a value of $\theta_{2}$ so that
+\begin{equation*}
+	\eta_{B} = \frac{\eta_{A}}{\nu} \sqrt{ 1 - \nu^{2} - \frac{\eta_{A}^{2}}{4 \nu^{2}}}
+\end{equation*}
+is maximized. This can now be rewritten as an optimization problem in the variable $\theta_{2}$.
+
+
+\subsubsection{Fidelity}
+It is common to evaluate the quality of the clones using the measure of fidelity, defined by
+\begin{equation*}
+	F_{A} = \bra{\psi} \rho_{A}^{\textnormal{(out)}} \ket{\psi} \qquad \text{and} \qquad F_{B} = \bra{\psi} \rho_{B}^{\textnormal{(out)}} \ket{\psi},
+\end{equation*}
+where $\ket{\psi}$ is the input state that we were attempting to clone. Having written
+\begin{equation*}
+	\rho_{A}^{\textnormal{(out)}} = \eta_{A} \bra{\psi} \ket{\psi} + \frac{1 - \eta_{A}}{2} \mathbf{1}, \quad \text{and} \quad
+	\rho_{B}^{\textnormal{(out)}} = \eta_{B} \bra{\psi} \ket{\psi} + \frac{1 - \eta_{B}}{2} \mathbf{1}
+\end{equation*}
+the fidelities are given by
+\begin{equation*}
+	F_{A} = \frac{1}{2}(1 + \eta_{A}) \qquad \text{and} \qquad F_{B} = \frac{1}{2}(1 + \eta_{B}).
+\end{equation*}
+In particular, with the aid of the formulas for $\eta_{A}$ and $\eta_{B}$ developed above we see that
+\begin{equation*}
+	F_{A}(\theta_{1}, \theta_{2}) = \frac{1}{2} \Big (1 + \sin(2\theta_{1}) \Big ) \quad \text{and} \quad
+	F_{B}(\theta_{1}, \theta_{2}) = \frac{1}{2} \Big ( 1 + \sin(2\theta_{1}) \cos(\theta_{2}) \Big ).
+\end{equation*}
+Note that these calculations do not reflect the relationship that exists between $\eta_{A}$ and $\eta_{B}$ that are a reflection of the normalization feature of the coefficients \eqref{normalization}. The optimal cloning situation is determined by selecting a value of $\theta_{1}$ and then determining the value of $\theta_{2}$ that optimizes $\eta_{B}$ as in \eqref{etaB_optimal}. Indeed if we write
+\begin{equation*}
+	\eta_{B}^{\textnormal{opt}} = \max_{\theta_{2}} \left [ \frac{\eta_{A}(\theta_{1},\theta_{2})}{\nu(\theta_{1}, \theta_{2})} \sqrt{1 - \nu^{2}(\theta_{1},\theta_{2}) - \frac{\eta_{A}^{2}(\theta_{1},\theta_{2})}{4 \nu^{2}(\theta_{1}, \theta_{2})}}\right ]
+\end{equation*}
+then the optimal cloning situation has the fidelities
+\begin{equation*}
+	F_{A} = \frac{1}{2}(1 + \sin(2 \theta_{1})) \qquad \text{and} \qquad F_{B} = \frac{1}{2} (1 + \eta_{B}^{\textnormal{opt}}).
+\end{equation*}
+Note that by having optimized over $\theta_{2}$ to obtain $\eta_{B}^{\textnormal{opt}}$, these fidelities depend only on $\theta_{1}$.
+
+
 {\color{red}{I believe these formulas can now be used to calculate the information gain and the disturbance generated by Eve (who would keep one of the copies, say the $B$ copy) in terms of $\theta_{1}, \theta_{2}$, and $\theta_{3}$.}}
 
 
