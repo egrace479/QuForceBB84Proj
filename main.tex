@@ -229,12 +229,83 @@ Since we expect the scaling coefficient $\eta_{B}$ to be nonnegative, we seek a 
 \begin{equation*}
 	\nu \in \left [ \sqrt{\frac{1}{2} - \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}}, \sqrt{\frac{1}{2} + \frac{1}{2} \sqrt{1 - \eta_{A}^{2}}} \right ].
 \end{equation*}
-{\color{red}{In general dimesions there is no formula for the corresponding value of $\nu$, but in dimension $2$ there might be a formula. Right now I have reduced this to the following equation for $\nu$:
+%{\color{red}{In general dimesions there is no formula for the corresponding value of $\nu$, but in dimension $2$ there might be a formula. Right now I have reduced this to the following equation for $\nu$:
+%\begin{equation*}
+%    4 \nu^{5} - 4 \nu^{4} + 4 \nu^{2} - 3 \eta^{2} = 0.
+%\end{equation*}
+%Can we show that there is a unique value of $\nu$ that corresponds to the maximum?
+%}}
+
+\subsection{Optimization} We seek to optimize the value of $\eta_{B}$ given $\eta_{A}$. Since the fidelity of a clone is given by $F = (1 + \eta)/2$, this amounts to optimizing the fidelity of the $B$-clone once the fidelity of the $A$-clone has been set. Recalling that $\eta_{A} = 2 \mu \nu$ and $\eta_{B} = 2 \mu \xi$ with $\mu^{2} + \nu^{2} + \xi^{2} = 1$, we notice that one approach is to consider this as a constrained optimization problem to which we apply the method of Lagrange multipliers. As such we seek values of $\mu, \nu, \xi, \lambda_{1}, \lambda_{2}$ so that
+\begin{equation} 
+	\label{lagrange1}
+\begin{aligned}
+	\nabla \eta_{B} &= \lambda_{1} \nabla g_{1} + \lambda_{2} \nabla g_{2},\\
+	g_{1} &= 0,\\
+	g_{2} &= 0,
+\end{aligned}
+\end{equation}
+where
 \begin{equation*}
-    4 \nu^{5} - 4 \nu^{4} + 4 \nu^{2} - 3 \eta^{2} = 0.
+	g_{1}(\mu, \nu, \xi) = 2 \mu \nu - \eta_{A} \quad \text{and} \quad g_{2}(\mu, \nu, \xi) = \mu^{2} + \nu^{2} + \xi^{2} - 1.
 \end{equation*}
-Can we show that there is a unique value of $\nu$ that corresponds to the maximum?
-}}
+The equations \eqref{lagrange1} yield the following system of (nonlinear) equations:
+\begin{align}
+	\xi &= \lambda_{1} \nu + \lambda_{2} \mu \label{lagrangesys1}\\
+	0 &= \lambda_{1} \mu + \lambda_{2} \nu \label{lagrangesys2}\\
+	\mu &= \lambda_{2} \xi \label{lagrangesys3}\\
+	2 \mu \nu &= \eta_{A} \label{lagrangesys4}\\
+	1 &= \mu_{2} + \nu^{2} + \xi^{2}. \label{lagrangesys5} 
+\end{align}
+We view equations \eqref{lagrangesys1} and \eqref{lagrangesys2} as a linear system of equations in $\mu$ and $\nu$ (viewing $\lambda_{1}$ and $\lambda_{2}$ as coefficients), the solution of which is given by
+\begin{equation}
+	\mu = \frac{\lambda_{2}}{\lambda_{2}^{2} - \lambda_{1}^{2}} \xi \quad \text{and} \quad \nu = - \frac{\lambda_{1}}{\lambda_{2}^{2} - \lambda_{1}^{2}} \xi.
+\end{equation}
+In light of equation \eqref{lagrangesys3} together with the solution to \eqref{lagrangesys1} and \eqref{lagrangesys2} we find that
+\begin{equation*}
+	\lambda_{2}^{2} - \lambda_{1}^{2} = 1,
+\end{equation*}
+meaning that
+\begin{equation*}
+	\mu = \lambda_{2} \xi \quad \text{and} \quad \nu = - \lambda_{1} \xi.
+\end{equation*}
+These facts can now be inserted into \eqref{lagrangesys5} to yield
+\begin{equation*}
+	\xi^{2}(\lambda_{2}^{2} + \lambda_{1}^{2} + 1) = 1.
+\end{equation*}
+The fact that $\xi_{2}^{2} - \xi_{1}^{2} = 1$ allows us to simplify this to read
+\begin{equation*}
+	2 \lambda_{2}^{2} \xi^{2} = 1.
+\end{equation*}
+Once again we use equation \eqref{lagrangesys3} to see that
+\begin{equation*}
+	2 \mu^{2} = 1,
+\end{equation*}
+whence $\mu = \pm \sqrt{2}/2$. We now use \eqref{lagrangesys4} to find that
+\begin{equation*}
+	\nu = \pm \frac{\eta_{A}}{\sqrt{2}}.
+\end{equation*}
+Returning our formulas for $\mu, \nu$ to equation \eqref{lagrangesys5} yields
+\begin{equation*}
+	\xi = \pm \sqrt{\frac{1 - \eta_{A}^{2}}{2}}.
+\end{equation*}
+It follows that the optimal value of $\eta_{B}$ is given by
+\begin{equation*}
+	\eta_{B} = 2 \left ( \frac{\sqrt{2}}{2}\right )\sqrt{\frac{1 - \eta_{A}^{2}}{2}} = \sqrt{1 - \eta_{A}^{2}}.
+\end{equation*}
+This yields the circle relation
+\begin{equation*}
+\eta_{A}^{2} + \eta_{B}^{2} = 1,
+\end{equation*}
+which agrees with the optimization result in \cite{REZAKHANI2005278}. 
+
+We point out that in the symmetric case in which $\eta_{A} = \eta_{B}$ we have $\eta_{A} = 1/\sqrt{2}$ which yields the optimal fidelity
+\begin{equation*}
+	F = \frac{1}{2}\left ( 1 + \frac{1}{\sqrt{2}} \right ) = \frac{1}{2} + \frac{1}{\sqrt{8}},
+\end{equation*}
+in agreement with \cite{PhysRevA.65.012304}.
+
+
 
 \section{Implementation}
 
@@ -365,8 +436,22 @@ then the optimal cloning situation has the fidelities
 \end{equation*}
 Note that by having optimized over $\theta_{2}$ to obtain $\eta_{B}^{\textnormal{opt}}$, these fidelities depend only on $\theta_{1}$.
 
+To determine the angle $\theta_{2}$ that yields the optimal fidelity in the $B$-clone we use the optimization arguments introduced earlier. The shrinking coefficients satisfy
+\begin{equation*}
+	\eta_{A}^{2} + \eta_{B}^{2} = 1.
+\end{equation*}
+Since $\eta_{A} = \sin(2 \theta_{1})$ and $\eta_{B} = \sin(2\theta_{1}) \cos(2 \theta_{2})$ we find that we achieve the optimal fidelity for the $B$-clone provided
+\begin{equation*}
+	\theta_{2} = \frac{1}{2} \arccos(\cot(2\theta_{1})).
+\end{equation*}
+This formula imposes some restrictions on the values of $\theta_{1}$. First we note that we require $\theta_{1} \neq n\pi$ for any $n \in \Z$ in order to remain in the domain of the cotangent function. In order to satisfy the domain requirements for the inverse cosine function we further require that 
+\begin{equation*}
+	\frac{\pi}{8} \leq \theta_{1} \leq \frac{3\pi}{8}.
+\end{equation*}
 
-{\color{red}{I believe these formulas can now be used to calculate the information gain and the disturbance generated by Eve (who would keep one of the copies, say the $B$ copy) in terms of $\theta_{1}, \theta_{2}$, and $\theta_{3}$.}}
+
+
+%{\color{red}{I believe these formulas can now be used to calculate the information gain and the disturbance generated by Eve (who would keep one of the copies, say the $B$ copy) in terms of $\theta_{1}, \theta_{2}$, and $\theta_{3}$.}}
 
 
 \subsection{Circuit Output} 
