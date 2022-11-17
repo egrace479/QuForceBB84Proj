@@ -88,25 +88,18 @@ def qiskit_clone(qc, theta_2):
     '''
         
     #Eve Prep
-
-    qc.ry(np.pi/2, 1)
-    
-    qc.cnot(1,2)  #cnot(control, target)
-    
+    #
+    qc.ry(np.pi/2, 1)   
+    qc.cnot(1,2)  #cnot(control, target)   
     qc.ry(2*theta_2, 2)
-
     qc.cnot(2,1)
-    
     qc.ry(2*theta_2, 1)
     
     #Eve Clone
-    
+    #  
     qc.cnot(0,1)
-    
     qc.cnot(0,2)
-
     qc.cnot(1,0)
-
     qc.cnot(2,0)
     
     return qc
