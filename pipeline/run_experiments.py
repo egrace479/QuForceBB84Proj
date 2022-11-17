@@ -64,7 +64,7 @@ def get_circuit(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure =
     Returns:
     --------------
     qc - Quantum circuit.
-        
+
     '''
 
     qc = QuantumCircuit(3,3)
@@ -112,12 +112,15 @@ def run_experiment(qc, theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_me
         provider = IonQProvider("RmK0yNkCDPmoxCH12uQ4U67lpu9kFgik")
         native_simulator = provider.get_backend("ionq_simulator", gateset="native")
         job = native_simulator.run(qc)
+        probs = job.get_probabilities()
 
-    if gateset == 'ibm':
-
-    #if gateset == 'qiskit' (our default)
-    job = #appropriate simulator/etc.
-    probs = job.get_probabilities()
+    elif gateset == 'ibm':
+        job = execute(qc, shots = shots)
+    
+    else: #if gateset == 'qiskit' (our default)
+        sim = Aer.get_backend('qasm_simulator')
+        job = execute(qc, backend = sim, shots = shots)
+    
     
     out000 = job.result().get_counts().get("000")
     out001 = job.result().get_counts().get("001")
