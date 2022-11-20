@@ -7,6 +7,10 @@ from qiskit import Aer, execute, assemble
 
 
 ## This file requires translation of h and ry gates, also an rx(-pi/2) gate
+## h equiv: x-sx-rz(-pi/2)-sx-x
+## ry(gamma) equiv: sx-rz(gamma)-sx-x
+## ry(pi/2) equiv: x-sx-rz(-pi/2)-sx
+## rx(-pi/2) equiv: sx-x
 
 
 def ibm_alice_prepares(qc, bitval, basis):
@@ -26,12 +30,24 @@ def ibm_alice_prepares(qc, bitval, basis):
     '''
 
     if basis == 'X' and bitval == 1: # initial state is |->
+        #qc.x(0)
+
+        #qc.h(0)
+        #qc.x(0) xx equiv to --
+        qc.sx(0)
+        qc.rz(-np.pi/2,0)
+        qc.sx(0)
         qc.x(0)
-        qc.h(0)
+
         return qc
 
     if basis == 'X' and bitval == 0: # initial state is |+>
-        qc.h(0)
+        #qc.h(0)
+        qc.x(0)
+        qc.sx(0)
+        qc.rz(-np.pi/2,0)
+        qc.sx(0)
+        qc.x(0)
         return qc
 
     if basis == 'Y' and bitval == 1: # initial state |-i>
@@ -40,7 +56,9 @@ def ibm_alice_prepares(qc, bitval, basis):
         return qc
 
     if basis == 'Y' and bitval == 0: # initial state |+i>
-        qc.rx(-np.pi/2, 0)
+        #qc.rx(-np.pi/2, 0)
+        qc.sx(0)
+        qc.x(0)
         return qc
 
 
@@ -61,9 +79,26 @@ def ibm_measurement_prep(qc, basis):
     '''
     
     if basis == 'X':
-        qc.h(0)
-        qc.h(1)
-        qc.h(2)
+        #qc.h(0)
+        qc.x(0)
+        qc.sx(0)
+        qc.rz(-np.pi/2,0)
+        qc.sx(0)
+        qc.x(0)
+        
+        #qc.h(1)
+        qc.x(1)
+        qc.sx(1)
+        qc.rz(-np.pi/2,1)
+        qc.sx(1)
+        qc.x(1)
+        
+        #qc.h(2)
+        qc.x(2)
+        qc.sx(2)
+        qc.rz(-np.pi/2,2)
+        qc.sx(2)
+        qc.x(2)
         
     if basis == 'Y':
         #qc.rx(np.pi/2, 0)
@@ -83,7 +118,7 @@ def ibm_clone(qc, theta_2):
     --------------
     qc - Quantum circuit.
     theta_2 - [-pi/2, pi/2]. 
-    
+
     Returns:
     --------------
     qc - Quantum circuit.
@@ -92,17 +127,29 @@ def ibm_clone(qc, theta_2):
         
     #Eve Prep
 
-    qc.ry(np.pi/2, 1)
+    #qc.ry(np.pi/2, 1)
+    qc.x(1)
+    qc.sx(1)
+    qc.rz(-np.pi/2,1)
+    qc.sx(1)
     
     #qc.cnot(1,2)       #cnot(control, target)
     qc.cx(1,2)          #cx(control, target)
     
-    qc.ry(2*theta_2, 2)
+    #qc.ry(2*theta_2, 2)
+    qc.sx(2)
+    qc.rz(2*theta_2, 2)
+    qc.sx(2)
+    qc.x(2)
 
     #qc.cnot(2,1)
     qc.cx(2,1)
     
-    qc.ry(2*theta_2, 1)
+    #qc.ry(2*theta_2, 1)
+    qc.sx(1)
+    qc.rz(2*theta_2, 1)
+    qc.sx(1)
+    qc.x(1)
     
     #Eve Clone
     
