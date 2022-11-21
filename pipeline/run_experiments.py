@@ -54,12 +54,12 @@ def get_circuit(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure =
 
     Parameters:
     --------------
-    theta_2 - [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
-    bitval - Value of the bit to send (0 or 1). Default is 0.
+    theta_2 - Float in [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
+    bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
-    shots - Number of samples used for statistics. Default value is 1024. 
+    shots - Number of samples used for statistics. Int, efault value is 1024. 
 
     Returns:
     --------------
@@ -91,12 +91,11 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     Parameters:
     --------------
     theta_2 - Float in [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
-    bitval - Value of the bit to send (0 or 1). Default is 0.
+    bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
     shots - Number of samples used for statistics. Int, default value is 1024. 
-    simutlation - Boolean, default is True (Run on simulator).
 
     Returns:
     --------------
@@ -138,12 +137,11 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     Parameters:
     --------------
     theta_2 - Float in [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
-    bitval - Value of the bit to send (0 or 1). Default is 0.
+    bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
     shots - Number of samples used for statistics. Int, default value is 1024. 
-    simutlation - Boolean, default is True (Run on simulator).
 
     Returns:
     --------------
@@ -180,7 +178,7 @@ def get_fidelities(job_id, gateset = 'qiskit', bitval = 0, shots = 1024):
     --------------
     job_id - ID of experiment (job) for which to retrieve information.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
-    bitval - Value of the bit sent (0 or 1). Default is 0.
+    bitval - Value of the bit sent (0 or 1). Int, default is 0.
     shots - Number of samples. Int, default value is 1024. 
 
     Returns:
@@ -256,7 +254,7 @@ def get_sim_fidelities(job, bitval, shots):
     --------------
     job - Simulation (job) for which to retrieve information.
     bitval -
-    shots - Number of samples.
+    shots - Number of samples. Int, default 1024.
 
     Returns:
     --------------
