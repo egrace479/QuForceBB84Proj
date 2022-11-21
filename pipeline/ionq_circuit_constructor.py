@@ -123,11 +123,11 @@ def ionq_clone(qc, theta_2):
     
     qc.append(MSGate(0,0), [1,2])
     
-    #qc.append(GPIGate(-1/8), [1])
-    qc.append(GPIGate(1/8), [1])
+    qc.append(GPIGate(-1/8), [1])
+    #qc.append(GPIGate(1/8), [1])
     
-    #qc.append(GPIGate((-np.pi/4 - theta_2)/(2 * np.pi)), [2])
-    qc.append(GPIGate((np.pi/4 - theta_2)/(2 * np.pi)), [2])
+    qc.append(GPIGate((-np.pi/4 - theta_2)/(2 * np.pi)), [2])
+    #qc.append(GPIGate((np.pi/4 - theta_2)/(2 * np.pi)), [2])
     
     qc.append(MSGate(0,0), [2,1])
     
@@ -151,10 +151,10 @@ def ionq_clone(qc, theta_2):
     
     qc.append(GPI2Gate(1/4), [0])
     
-    # qc.append(GPIGate(-1/8), [2])
-    #qc.append(GPIGate(-1/8), [1])
-    qc.append(GPIGate(1/8), [2])
-    qc.append(GPIGate(1/8), [1])
+    qc.append(GPIGate(-1/8), [2])
+    qc.append(GPIGate(-1/8), [1])
+    #qc.append(GPIGate(1/8), [2])
+    #qc.append(GPIGate(1/8), [1])
     
     qc.append(MSGate(0,0), [1,0])
     
