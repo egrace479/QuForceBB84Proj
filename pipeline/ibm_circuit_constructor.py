@@ -20,7 +20,7 @@ def ibm_alice_prepares(qc, bitval, basis):
     Parameters:
     --------------
     qc - Quantum circuit.
-    bitval - Value of the bit to send ('0' or '1')
+    bitval - Int value of the bit to send (0 or 1).
     basis - Basis with which to encode the bitvalue ('X' or 'Y').
 
     Returns:
@@ -117,7 +117,7 @@ def ibm_clone(qc, theta_2):
     Parameters:
     --------------
     qc - Quantum circuit.
-    theta_2 - [-pi/2, pi/2]. 
+    theta_2 - Float in [-pi/2, pi/2]. 
 
     Returns:
     --------------
@@ -174,8 +174,8 @@ def construct_ibm_circuit(qc, theta_2 = np.pi/8, bitval = 0, basis_send = 'X', b
     Parameters:
     --------------
     qc - Quantum circuit.
-    theta_2 - [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
-    bitval - Value of the bit to send (0 or 1). Default is 0.
+    theta_2 - Float in [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
+    bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
 
