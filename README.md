@@ -2,11 +2,13 @@
 
 Elizabeth Campolongo, Brian Pigott, Hardik Routrat continuing our QuForce project.
 
-Expanding our experimental investigation into the trade-off between information gain and detection when eavesdropping on quantum key distribution.
+The BB84 protocol is known to be a secure method of quantum key distribution, even in the case when an eavesdropper has unlimited resources at their disposal. However, the security of the protocol is only obtained below the level of noise that occurs in the quantum channel. The purpose of this project is twofold:
 
-Exploring the impact of noise on our base fidelity rates through implementation on IonQ using Native Gates directly.
+Develop an optimal strategy for an eavesdropper who is using asymmetric cloning; that is, develop and implement a strategy that gives the eavesdropper maximum information about the channel while minimizing the disturbance to the signal.
 
-Further exploring the significance of the underlying hardware on the implementation by also running our experiment on IBM's quantum computer using Basis Gates (pending access/funding).
+Consider the Quantum Bit Error Rate (QBER) in a lossy quantum channel with the presence of the eavesdropping strategy developed in (1) and implement error-correcting algorithms to derive a secure key. 
+
+Further exploring the significance of the underlying hardware and noise on our base fidelity rates through implementation on IonQ using Native Gates directly. We hope to also check IBM's quantum computer using Basis Gates (pending access/funding).
 
 
 
@@ -29,6 +31,7 @@ Python
 The BB84 protocol is known to be a secure method of quantum key distribution, even in the case when an eavesdropper has unlimited resources at their disposal. However, the security of the protocol is only obtained below the level of noise that occurs in the quantum channel. The purpose of this project is twofold:
 
 Develop an optimal strategy for an eavesdropper who is using asymmetric cloning; that is, develop and implement a strategy that gives the eavesdropper maximum information about the channel while minimizing the disturbance to the signal.
+
 Consider the Quantum Bit Error Rate (QBER) in a lossy quantum channel with the presence of the eavesdropping strategy developed in (1) and implement error-correcting algorithms to derive a secure key. 
 
 ### STRATEGY & PLAN: 
