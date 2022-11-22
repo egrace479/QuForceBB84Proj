@@ -8,7 +8,7 @@ Develop an optimal strategy for an eavesdropper who is using asymmetric cloning;
 
 Consider the Quantum Bit Error Rate (QBER) in a lossy quantum channel with the presence of the eavesdropping strategy developed in (1) and implement error-correcting algorithms to derive a secure key. 
 
-Further exploring the significance of the underlying hardware and noise on our base fidelity rates through implementation on IonQ using Native Gates directly. We hope to also check IBM's quantum computer using Basis Gates (pending access/funding).
+As an extension of this inital endeavor, we are further exploring the significance of the underlying hardware and noise on our base fidelity rates through implementation on IonQ using Native Gates directly. We hope to also check IBM's quantum computer using Basis Gates (pending access/funding).
 
 
 
