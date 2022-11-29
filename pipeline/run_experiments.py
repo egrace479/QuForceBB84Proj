@@ -1,4 +1,4 @@
-#import numpy as np
+import numpy as np
 
 # from qiskit import *
 # Importing standard Qiskit libraries
