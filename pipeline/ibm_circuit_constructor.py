@@ -194,7 +194,7 @@ def construct_ibm_circuit(qc, theta_2 = np.pi/8, bitval = 0, basis_send = 'X', b
     
     qc.barrier()
     # Bob and Eve prepare to measure
-    ibm_measurement_prep(qc, bitval, basis_measure)
+    ibm_measurement_prep(qc, basis_measure)
     
     qc.barrier()
     

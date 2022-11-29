@@ -164,7 +164,7 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         sim = Aer.get_backend('qasm_simulator')
         job = execute(qc, backend = sim, shots = shots)
         
-    bob_fidelity, eve_fidelity, ancilla_fidelity = get_sim_fidelities(job)
+    bob_fidelity, eve_fidelity, ancilla_fidelity = get_sim_fidelities(job, bitval, shots)
 
     return qc, bob_fidelity, eve_fidelity, ancilla_fidelity
 
