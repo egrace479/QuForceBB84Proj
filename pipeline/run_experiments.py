@@ -1,4 +1,4 @@
-import numpy as np
+#import numpy as np
 
 # from qiskit import *
 # Importing standard Qiskit libraries
@@ -13,9 +13,9 @@ from qiskit_ionq import IonQProvider
 from qiskit import Aer, execute, assemble
 
 #import appropriate circuit constructions
-from ionq_circuit_constructor import construct_ionq_circuit
-from qiskit_circuit_constructor import construct_qiskit_circuit
-from ibm_circuit_constructor import construct_ibm_circuit
+from .ionq_circuit_constructor import construct_ionq_circuit
+from .qiskit_circuit_constructor import construct_qiskit_circuit
+from .ibm_circuit_constructor import construct_ibm_circuit
 
 
 def fidelities(out000, out001, out010, out011, out100, out101, out110, out111, bitval, shots):
