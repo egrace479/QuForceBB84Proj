@@ -58,7 +58,8 @@ def get_circuit(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure =
     bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
-    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
+    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
+                for running simple Qiskit gateset on IonQ.
     shots - Number of samples used for statistics. Int, efault value is 1024. 
 
     Returns:
@@ -69,7 +70,7 @@ def get_circuit(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure =
 
     qc = QuantumCircuit(3,3)
     
-    if gateset == 'qiskit':
+    if (gateset == 'qiskit') or (gateset == 'qiskit-ionq'):
         #run with qiskit_circuit
         construct_qiskit_circuit(qc, theta_2, bitval, basis_send, basis_measure)
 
@@ -94,7 +95,8 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
-    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
+    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
+                for running simple Qiskit gateset on IonQ.
     shots - Number of samples used for statistics. Int, default value is 1024. 
 
     Returns:
@@ -114,6 +116,11 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         ionq = provider.get_backend("ionq_qpu", gateset="native")
         job = ionq.run(qc, backend = ionq, shots = shots)
         #probs = job.get_probabilities()
+    
+    elif gateset == 'qiskit-ionq':
+        provider = IonQProvider("RmK0yNkCDPmoxCH12uQ4U67lpu9kFgik")
+        ionq = provider.get_backend("ionq_qpu")
+        job = ionq.run(qc, backend = ionq, shots = shots)
 
     elif gateset == 'ibm':
         job = execute(qc, shots = shots)
@@ -140,7 +147,8 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
-    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
+    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
+                for running simple Qiskit gateset on IonQ.
     shots - Number of samples used for statistics. Int, default value is 1024. 
 
     Returns:
@@ -159,6 +167,11 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         native_simulator = provider.get_backend("ionq_simulator", gateset="native")
         job = native_simulator.run(qc, shots = shots)
         #probs = job.get_probabilities()
+    
+    elif gateset == 'qiskit-ionq':
+        provider = IonQProvider("RmK0yNkCDPmoxCH12uQ4U67lpu9kFgik")
+        native_simulator = provider.get_backend("ionq_simulator")
+        job = native_simulator.run(qc, shots = shots)
 
     else: #if gateset == 'qiskit' (our default) or 'ibm'
         sim = Aer.get_backend('qasm_simulator')
@@ -177,7 +190,8 @@ def get_fidelities(job_id, gateset = 'qiskit', bitval = 0, shots = 1024):
     Parameters:
     --------------
     job_id - ID of experiment (job) for which to retrieve information.
-    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq' and 'ibm'.
+    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
+                for running simple Qiskit gateset on IonQ.
     bitval - Value of the bit sent (0 or 1). Int, default is 0.
     shots - Number of samples. Int, default value is 1024. 
 
@@ -193,7 +207,11 @@ def get_fidelities(job_id, gateset = 'qiskit', bitval = 0, shots = 1024):
             provider = IonQProvider("RmK0yNkCDPmoxCH12uQ4U67lpu9kFgik")
             ionq = provider.get_backend("ionq_qpu", gateset="native")
             job = ionq.retrieve(job_id)
-
+            
+    elif gateset == 'qiskit-ionq':
+            provider = IonQProvider("RmK0yNkCDPmoxCH12uQ4U67lpu9kFgik")
+            ionq = provider.get_backend("ionq_qpu")
+            job = ionq.retrieve(job_id)
 
    # elif gateset == 'ibm':
    #         job = execute(qc, shots = shots)
