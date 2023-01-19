@@ -3,11 +3,12 @@ import numpy as np
 # from qiskit import *
 # Importing standard Qiskit libraries
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
-from qiskit import Aer, execute, assemble
+from qiskit import IBMQ, Aer, execute, assemble
 from qiskit.visualization import plot_histogram, plot_bloch_vector
 from qiskit.visualization import plot_state_qsphere, plot_state_city, plot_bloch_multivector
 from qiskit.visualization import array_to_latex
 import qiskit.quantum_info as qi
+from qiskit_ibm_runtime import QiskitRuntimeService
 
 from qiskit_ionq import IonQProvider
 from qiskit import Aer, execute, assemble
@@ -85,7 +86,7 @@ def get_circuit(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure =
     return qc
 
 
-def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure = 'X', gateset = 'qiskit', shots = 1024):
+def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure = 'X', gateset = 'qiskit', backend = 'ibmq_manila', shots = 1024):
     '''
     This function runs the experiment with qiskit, IonQ Native Gates, or IBM Basis Gates.
 
@@ -97,6 +98,7 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
                 for running simple Qiskit gateset on IonQ.
+    backend - String of IBM computer to run on: eg, 'ibm_nairobi', 'ibm_oslo', or 'ibmq_manila'. Default set to 'ibmq_manila'.
     shots - Number of samples used for statistics. Int, default value is 1024. 
 
     Returns:
@@ -123,6 +125,9 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         job = ionq.run(qc, backend = ionq, shots = shots)
 
     elif gateset == 'ibm':
+        IBMQ.load_account()
+        provider = IBMQ.get_provider(hub='HUB')
+        backend = provider.get_backend(backend)
         job = execute(qc, shots = shots)
         
     else: #if gateset == 'qiskit' (our default)
