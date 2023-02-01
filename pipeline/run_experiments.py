@@ -3,7 +3,7 @@ import numpy as np
 # from qiskit import *
 # Importing standard Qiskit libraries
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
-from qiskit import IBMQ, Aer, execute, assemble
+from qiskit import IBMQ, Aer, execute, assemble, transpile
 from qiskit.visualization import plot_histogram, plot_bloch_vector
 from qiskit.visualization import plot_state_qsphere, plot_state_city, plot_bloch_multivector
 from qiskit.visualization import array_to_latex
@@ -131,8 +131,11 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         job = execute(qc, shots = shots)
         
     else: #if gateset == 'qiskit' (our default)
-        sim = Aer.get_backend('qasm_simulator')
-        job = execute(qc, backend = sim, shots = shots)
+        qc_1 = transpile(qc, basis_gates = ['cx', 'rz', 'id', 'sx', 'x'])
+        IBMQ.load_account()
+        provider = IBMQ.get_provider(hub='HUB')
+        backend = provider.get_backend(backend)
+        job = execute(qc_1, shots = shots)
     
     job_id = job.job_id()
     
