@@ -131,7 +131,7 @@ def construct_qiskit_circuit(qc, theta_2 = np.pi/8, bitval = 0, basis_send = 'X'
     
     qc.barrier()
     # Bob and Eve prepare to measure
-    qiskit_measurement_prep(qc, bitval, basis_measure)
+    qiskit_measurement_prep(qc, basis_measure)
     
     qc.barrier()
     
