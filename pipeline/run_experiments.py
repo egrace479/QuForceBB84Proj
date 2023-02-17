@@ -12,6 +12,7 @@ from qiskit_ibm_runtime import QiskitRuntimeService
 
 from qiskit_ionq import IonQProvider
 from qiskit import Aer, execute, assemble
+from qiskit.providers.ibmq import least_busy
 
 #import appropriate circuit constructions
 from .ionq_circuit_constructor import construct_ionq_circuit
@@ -86,9 +87,9 @@ def get_circuit(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure =
     return qc
 
 
-def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure = 'X', gateset = 'qiskit', backend = 'ibmq_manila', shots = 1024):
+def run_experiment_ionq(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure = 'X', gateset = 'qiskit-ionq', shots = 1024):
     '''
-    This function runs the experiment with qiskit, IonQ Native Gates, or IBM Basis Gates.
+    This function runs the experiment with qiskit or IonQ Native Gates on IonQ. Running with qiskit gates uses IonQ built-in transpiler.
 
     Parameters:
     --------------
@@ -96,18 +97,15 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     bitval - Value of the bit to send (0 or 1). Int, default is 0.
     basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
     basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
-    gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
-                for running simple Qiskit gateset on IonQ.
-    backend - String of IBM computer to run on: eg, 'ibm_nairobi', 'ibm_oslo', or 'ibmq_manila'. Default set to 'ibmq_manila'.
+    gateset - Set of Gates with which to run experiment: 'ionq' or 'qiskit-ionq'. Default 'qiskit-ionq' for running simple Qiskit gateset on IonQ,
+                        'ionq' runs on IonQ with Native Gates.
     shots - Number of samples used for statistics. Int, default value is 1024. 
 
     Returns:
     --------------
     qc - Quantum circuit.
-    job_id - ID to identify job (running on QPU).
-
-
-    
+    job_id - ID to identify job (running on IonQ QPU). 
+        
     '''
     qc = get_circuit(theta_2, bitval, basis_send, basis_measure, gateset)
         
@@ -119,29 +117,71 @@ def run_experiment(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         job = ionq.run(qc, backend = ionq, shots = shots)
         #probs = job.get_probabilities()
     
-    elif gateset == 'qiskit-ionq':
+    else: #gateset == 'qiskit-ionq':
         provider = IonQProvider("RmK0yNkCDPmoxCH12uQ4U67lpu9kFgik")
         ionq = provider.get_backend("ionq_qpu")
         job = ionq.run(qc, backend = ionq, shots = shots)
-
-    elif gateset == 'ibm':
-        IBMQ.load_account()
-        provider = IBMQ.get_provider(hub='HUB')
-        backend = provider.get_backend(backend)
-        job = execute(qc, shots = shots)
-        
-    else: #if gateset == 'qiskit' (our default)
-        qc_1 = transpile(qc, basis_gates = ['cx', 'rz', 'id', 'sx', 'x'])
-        IBMQ.load_account()
-        provider = IBMQ.get_provider(hub='HUB')
-        backend = provider.get_backend(backend)
-        job = execute(qc_1, shots = shots)
     
     job_id = job.job_id()
     
     #bob_fidelity, eve_fidelity, ancilla_fidelity = fidelities(out000, out001, out010, out011, out100, out101, out110, out111, bitval, shots)
     
     return qc, job_id #, bob_fidelity, eve_fidelity, ancilla_fidelity
+
+
+def run_experiment_ibm(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measure = 'X', gateset = 'qiskit', backend = 'least_busy', shots = 1024):
+    '''
+    This function runs the experiment with qiskit or IBM Basis Gates on IBMQ. Running with qiskit utilizes the qiskit transpiler.
+
+    Parameters:
+    --------------
+    theta_2 - Float in [-pi/2, pi/2]. Default value is pi/8, which gives symmetric clone.
+    bitval - Value of the bit to send (0 or 1). Int, default is 0.
+    basis_send - Basis with which to encode the bitvalue ('X' or 'Y'). Default is 'X'.
+    basis_measure - Basis in which to measure the qubit ('X' or 'Y'). Default is 'X'.
+    gateset - Set of Gates with which to run experiment. Default 'qiskit' also takes 'ibm', 'qiskit' is
+                for running simple Qiskit gateset on IBMQ and 'ibm' for Basis Gates.
+    backend - String of IBM computer to run on: eg, 'ibm_nairobi', 'ibm_oslo', or 'ibmq_manila'. Default set to 'least_busy', 
+                which uses qiskit's least_busy function to find the most readily available computer.
+    shots - Number of samples used for statistics. Int, default value is 1024. 
+
+    Returns:
+    --------------
+    qc - Quantum circuit.
+    job_id - ID to identify job running on QPU and monitor status (use qiskit job_monitor).
+    backend - IBM computer used, needed to retrieve results later.
+    
+    '''
+
+    qc = get_circuit(theta_2, bitval, basis_send, basis_measure, gateset)
+        
+ 
+    #Set up to run on hardware, not simulators
+    if gateset == 'ibm':
+        IBMQ.load_account()
+        provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main')
+        if backend == 'least_busy': 
+            #3 is min required qubits
+            backend = least_busy(provider.backends(filters = lambda x: x.configuration().n_qubits >= 3 and 
+                                                not x.configuration().simulator and x.status().operational == True))
+            print("IMB Computer used is", backend)
+        job = execute(qc, backend = backend, shots = shots)
+        
+    else: #if gateset == 'qiskit' (our default)
+        qc_1 = transpile(qc, basis_gates = ['cx', 'rz', 'id', 'sx', 'x'])
+        IBMQ.load_account()
+        provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main')
+        if backend == 'least_busy': 
+            backend = least_busy(provider.backends(filters = lambda x: x.configuration().n_qubits >= 3 and 
+                                                not x.configuration().simulator and x.status().operational == True))
+            print("IMB Computer used is", backend)
+        job = execute(qc_1, backend = backend, shots = shots)
+    
+    job_id = job.job_id()
+        
+    #bob_fidelity, eve_fidelity, ancilla_fidelity = fidelities(out000, out001, out010, out011, out100, out101, out110, out111, bitval, shots)
+    
+    return qc, job_id, backend #, bob_fidelity, eve_fidelity, ancilla_fidelity
 
 
 
@@ -191,15 +231,17 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
 
 
 
-def get_fidelities(job_id, gateset = 'qiskit', bitval = 0, shots = 1024):
+def get_fidelities(job_id, gateset = 'qiskit', backend = 'ibmq_manila', bitval = 0, shots = 1024):
     '''
     This function averages the fidelity of the clones and ancilla over experiment (job).
 
     Parameters:
     --------------
-    job_id - ID of experiment (job) for which to retrieve information.
+    job_id - ID of experiment (job) for which to retrieve information. If run on IBM, pass actual job, not job ID.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
                 for running simple Qiskit gateset on IonQ.
+    backend - String of backend used. Only necessary if run on IBM, default is 'ibmq_manila', but should use output of `run_experiment_ibm.`
+                Overwritten by IonQ gateset options.
     bitval - Value of the bit sent (0 or 1). Int, default is 0.
     shots - Number of samples. Int, default value is 1024. 
 
@@ -221,13 +263,10 @@ def get_fidelities(job_id, gateset = 'qiskit', bitval = 0, shots = 1024):
             ionq = provider.get_backend("ionq_qpu")
             job = ionq.retrieve(job_id)
 
-   # elif gateset == 'ibm':
-   #         job = execute(qc, shots = shots)
-        
-   # else: #if gateset == 'qiskit' (our default)
-   #         sim = Aer.get_backend('qasm_simulator')
-   #         job = execute(qc, backend = sim, shots = shots)
-
+    else: #gateset == 'qiskit' or 'ibm'
+        provider = IBMQ.load_account()
+        backend = provider.get_backend(backend)
+        job = backend.retrieve_job(job_id)
 
 
     out000 = job.result().get_counts().get("000")
