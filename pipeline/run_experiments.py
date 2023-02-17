@@ -202,9 +202,9 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
     Returns:
     --------------
     qc - Quantum circuit.
-    job_id - ID to identify job (running on QPU).
-
-
+    bob_fidelity - Fidelity of copy sent to intended recipient (Bob).
+    eve_fidelity - Fidelity of copy kept by eavesdropper (Eve).
+    ancilla_fidelity - Fidelity of the ancilla.
     
     '''
     qc = get_circuit(theta_2, bitval, basis_send, basis_measure, gateset)
@@ -221,9 +221,14 @@ def run_simulation(theta_2 = np.pi/8, bitval = 0, basis_send = 'X', basis_measur
         native_simulator = provider.get_backend("ionq_simulator")
         job = native_simulator.run(qc, shots = shots)
 
-    else: #if gateset == 'qiskit' (our default) or 'ibm'
+    elif gateset == 'ibm':
         sim = Aer.get_backend('qasm_simulator')
         job = execute(qc, backend = sim, shots = shots)
+
+    else: #if gateset == 'qiskit' (our default) 
+        qc_1 = transpile(qc, basis_gates = ['cx', 'rz', 'id', 'sx', 'x'])
+        sim = Aer.get_backend('qasm_simulator')
+        job = execute(qc_1, backend = sim, shots = shots)
         
     bob_fidelity, eve_fidelity, ancilla_fidelity = get_sim_fidelities(job, bitval, shots)
 
@@ -237,7 +242,7 @@ def get_fidelities(job_id, gateset = 'qiskit', backend = 'ibmq_manila', bitval =
 
     Parameters:
     --------------
-    job_id - ID of experiment (job) for which to retrieve information. If run on IBM, pass actual job, not job ID.
+    job_id - ID of experiment (job) for which to retrieve information.
     gateset - Set of Gates with which to run experiment. Default 'qiskit', also takes 'ionq', 'ibm', and 'qiskit-ionq' 
                 for running simple Qiskit gateset on IonQ.
     backend - String of backend used. Only necessary if run on IBM, default is 'ibmq_manila', but should use output of `run_experiment_ibm.`
