@@ -142,7 +142,7 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
 
         plt.yticks(np.arange(0,1.1, step = .1))
         plt.xticks(np.arange(-np.pi/2, 5*np.pi/8, step = np.pi/8))
-        plt.legend(title = "Message bit =" + alice_bit + basis + "basis")
+        plt.legend(title = "Message bit =" + str(alice_bit) + str(basis) + "basis")
 
         plt.xlabel('theta_2')
         plt.show()
@@ -203,7 +203,7 @@ def plot_sim_fidelities(basis = 'X', gateset = 'qiskit', alice_bit = 0, shots = 
         plt.plot(ts, A, label = "Ancilla fidelity")
         plt.yticks(np.arange(0,1.1, step = .1))
         plt.xticks(np.arange(-np.pi/2, 5*np.pi/8, step = np.pi/8))
-        plt.legend(title = "Message bit =" + alice_bit + basis + "basis")
+        plt.legend(title = "Message bit =" + str(alice_bit) + str(basis) + "basis")
         plt.show()
     
     return B, E, A, ts
@@ -244,7 +244,7 @@ def plot_all_fidelities(basis, alice_bit, QPU_B, QPU_E, QPU_A, ts, B, E, A, hard
     plt.yticks(np.arange(0,1.1, step = .1))
     plt.xticks(np.arange(-np.pi/2, 5*np.pi/8, step = np.pi/8))
     #plt.legend(title = "Message bit =" + alice_bit + basis + "basis")
-    plt.title("Fidelity Comparisons for " + hardware + ": Message bit =" + alice_bit + basis + "basis", fontsize = 18)
+    plt.title("Fidelity Comparisons for " + str(hardware) + ": Message bit =" + str(alice_bit) + str(basis) + "basis", fontsize = 18)
 
     plt.ylabel('Fidelity')
     plt.xlabel('theta_2')
