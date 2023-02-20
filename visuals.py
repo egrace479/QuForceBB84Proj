@@ -96,6 +96,7 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
     backend - String of backend used: IBMQ computer utilized or 'ionq' or 'qiskit-ionq'. 
                     Default is 'ibmq_manila', but should use return from `run_experiment_ibm` when running on IBM. 
                     Overwritten for backend = 'ionq' or 'qiskit-ionq'.
+                    Encodes as string incase backend object passed.
     alice_bit - Value of the bit sent (0 or 1). Int, default is 0.
     shots - Number of samples. Int, default value is 1024. 
     show - Boolean: display plot. Default is True.
@@ -118,7 +119,7 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
         #get fidelities/probabilities for each angle in ts
         qpu_prob_bob, qpu_prob_eve, qpu_prob_ancilla = get_fidelities(job_id = job_ids[idx], 
                                                                         gateset = gateset,
-                                                                        backend = backend,
+                                                                        backend = str(backend),
                                                                         bitval = alice_bit,
                                                                         shots = shots)
         #add probabilities to appropriate list
@@ -142,7 +143,7 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
 
         plt.yticks(np.arange(0,1.1, step = .1))
         plt.xticks(np.arange(-np.pi/2, 5*np.pi/8, step = np.pi/8))
-        plt.legend(title = "Message bit =" + str(alice_bit) + str(basis) + "basis")
+        plt.legend(title = "Message bit = " + str(alice_bit) + ", " + str(basis) + " basis")
 
         plt.xlabel('theta_2')
         plt.show()
@@ -203,7 +204,7 @@ def plot_sim_fidelities(basis = 'X', gateset = 'qiskit', alice_bit = 0, shots = 
         plt.plot(ts, A, label = "Ancilla fidelity")
         plt.yticks(np.arange(0,1.1, step = .1))
         plt.xticks(np.arange(-np.pi/2, 5*np.pi/8, step = np.pi/8))
-        plt.legend(title = "Message bit =" + str(alice_bit) + str(basis) + "basis")
+        plt.legend(title = "Message bit = " + str(alice_bit) + ", " + str(basis) + " basis")
         plt.show()
     
     return B, E, A, ts
