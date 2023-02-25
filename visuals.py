@@ -93,6 +93,9 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
     Parameters:
     --------------
     job_ids - List of IDs (str) of experiments (jobs) for which to retrieve information. 
+    basis - Basis used to send & receive bit.
+    gateset - Set of gates used. Default is 'qiskit' when transpiled and run on IBM, 'ibm' for our transpiled circuit, 'qiskit-ionq' for 
+                    ionq transpiled and run, and 'ionq' for our transpiled Native Gate circuit.
     backend - String of backend used: IBMQ computer utilized or 'ionq' or 'qiskit-ionq'. 
                     Default is 'ibmq_manila', but should use return from `run_experiment_ibm` when running on IBM. 
                     Overwritten for backend = 'ionq' or 'qiskit-ionq'.
@@ -136,10 +139,14 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
         #plot fidelites if show is true
         plt.figure(figsize=(15,8))
         plt.rcParams.update({'font.size': 12})
-
-        plt.plot(ts, QPU_B, label = "Bob's fidelity (IonQ QPU)", marker='o',color='blue')
-        plt.plot(ts, QPU_E, label = "Eve's fidelity (IonQ QPU)", marker='o',color='red')
-        plt.plot(ts, QPU_A, label = "Ancilla fidelity (IonQ QPU)", marker='o',color='green')
+        if gateset == 'ionq' or gateset == 'qiskit-ionq':
+            plt.plot(ts, QPU_B, label = "Bob's fidelity (IonQ QPU)", marker='o',color='blue')
+            plt.plot(ts, QPU_E, label = "Eve's fidelity (IonQ QPU)", marker='o',color='red')
+            plt.plot(ts, QPU_A, label = "Ancilla fidelity (IonQ QPU)", marker='o',color='green')
+        else: # gateset == 'ibm' or gateset == 'qiskit':
+            plt.plot(ts, QPU_B, label = "Bob's fidelity (IBM QPU)", marker='o',color='blue')
+            plt.plot(ts, QPU_E, label = "Eve's fidelity (IBM QPU)", marker='o',color='red')
+            plt.plot(ts, QPU_A, label = "Ancilla fidelity (IBM QPU)", marker='o',color='green')
 
         plt.yticks(np.arange(0,1.1, step = .1))
         plt.xticks(np.arange(-np.pi/2, 5*np.pi/8, step = np.pi/8))
@@ -149,6 +156,7 @@ def plot_fidelities(job_ids = [], basis = 'X', gateset = 'qiskit', backend = 'ib
         plt.show()
     
     return QPU_B, QPU_E, QPU_A, ts
+
 
 
 
