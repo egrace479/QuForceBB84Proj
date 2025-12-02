@@ -1,6 +1,6 @@
 # Asymmetric Cloning to Eavesdrop on BB84 Protocol
 
-Elizabeth Campolongo, Brian Pigott, Hardik Routrat continuing our QuForce project.
+Elizabeth Campolongo, Brian Pigott, Hardik Routrat continuing our QuForce project ([published project repository](https://github.com/egrace479/asymmetric-cloning-BB84)).
 
 The BB84 protocol is known to be a secure method of quantum key distribution, even in the case when an eavesdropper has unlimited resources at their disposal. However, the security of the protocol is only obtained below the level of noise that occurs in the quantum channel. The purpose of this project is twofold:
 
